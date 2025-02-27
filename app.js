@@ -162,6 +162,11 @@ const GasLitApp = () => {
     };
   }, []);
 
+  // Initialize Lucide icons when component mounts - MOVED THIS INSIDE THE COMPONENT
+  React.useEffect(() => {
+    lucide.createIcons();
+  }, []);
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Left Sidebar */}
@@ -467,11 +472,6 @@ const GasLitApp = () => {
     </div>
   );
 };
-
-// Initialize Lucide icons after the component is mounted
-React.useEffect(() => {
-  lucide.createIcons();
-}, []);
 
 // Render the app
 ReactDOM.render(<GasLitApp />, document.getElementById('app'));
