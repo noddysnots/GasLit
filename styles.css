@@ -17,7 +17,12 @@
   transform: scale(1.05);
 }
 
-/* Placeholder images */
+/* Transitions */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Placeholder styling */
 .placeholder-image {
   background-color: #e0e0e0;
   display: flex;
@@ -25,4 +30,17 @@
   justify-content: center;
   color: #666;
   font-size: 12px;
+}
+
+/* Tag highlighting */
+.hashtag {
+  color: #059669;
+  font-weight: 500;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
 }
