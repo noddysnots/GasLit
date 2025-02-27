@@ -79,94 +79,89 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Render a post in the feed
-    function renderPost(post, append = false) {
-        const postElement = document.createElement('div');
-        postElement.className = `p-4 border-b border-gray-200 hover:bg-gray-50 transition-all duration-200 ${!append ? 'animate-fade-in' : ''}`;
-        
-        // Format post content (highlight hashtags)
-        const formattedContent = post.content.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>');
-        
-        // Tags display HTML
-        let tagsHTML = '';
-        if (post.tags && post.tags.length > 0) {
-            tagsHTML = `
-                <div class="text-sm text-gray-600 mb-1">
-                    Tagging: ${post.tags.join(', ')}
-                </div>
-            `;
-        }
-        
-        // Image HTML
-        let imageHTML = '';
-        if (post.image) {
-            imageHTML = `
-                <div class="rounded-xl overflow-hidden mb-2 transition-all duration-200 hover:opacity-95">
-                    <img 
-                        src="${post.image}" 
-                        alt="Post content" 
-                        class="w-full transition-transform duration-300 hover:scale-105" 
-                    />
-                </div>
-            `;
-        }
-        
-        // Post HTML structure
-        postElement.innerHTML = `
-            <div class="flex">
-                <div class="w-12 h-12 rounded-full mr-3 bg-gray-300 flex items-center justify-center text-gray-600">
-                    ${post.user.charAt(0)}
-                </div>
-                <div class="w-full">
-                    <div class="flex items-center">
-                        <span class="font-bold mr-1">${post.user}</span>
-                        <span class="text-gray-500 mr-1">${post.handle}</span>
-                        <span class="text-gray-500">· ${post.timestamp}</span>
-                    </div>
-                    
-                    ${tagsHTML}
-                    
-                    <p class="mt-1 mb-2">${formattedContent}</p>
-                    
-                    ${imageHTML}
-                    
-                    <div class="flex justify-between mt-2 text-gray-500">
-                        <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors duration-200">
-                            <i data-lucide="message-circle" class="w-4 h-4"></i>
-                            <span>${post.comments}</span>
-                        </button>
-                        <button class="flex items-center space-x-1 hover:text-green-500 transition-colors duration-200">
-                            <i data-lucide="repeat" class="w-4 h-4"></i>
-                            <span>${post.reposts}</span>
-                        </button>
-                        <button class="flex items-center space-x-1 hover:text-red-500 transition-colors duration-200 hover-scale">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                            <span>${post.likes}</span>
-                        </button>
-                        <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors duration-200">
-                            <i data-lucide="share-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
+    // Render a post in the feed
+function renderPost(post, append = false) {
+    const postElement = document.createElement('div');
+    postElement.className = `p-4 border-b border-gray-200 hover:bg-gray-50 transition-all duration-200 ${!append ? 'animate-fade-in' : ''}`;
+    
+    // Format post content (highlight hashtags)
+    const formattedContent = post.content.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>');
+    
+    // Tags display HTML
+    let tagsHTML = '';
+    if (post.tags && post.tags.length > 0) {
+        tagsHTML = `
+            <div class="text-sm text-gray-600 mb-1">
+                Tagging: ${post.tags.join(', ')}
             </div>
         `;
-        
-        // Add to feed (prepend for new posts, append for initial load)
-        if (append) {
-            postFeed.appendChild(postElement);
-        } else {
-            postFeed.insertBefore(postElement, postFeed.firstChild);
-        }
-        
-        // Re-initialize icons in the new post
-        lucide.createIcons({
-            icons: {
-                'message-circle': true,
-                'repeat': true,
-                'heart': true,
-                'share-2': true
-            },
-            root: postElement
-        });
+    }
+    
+    // Image HTML
+    let imageHTML = '';
+    if (post.image) {
+        imageHTML = `
+            <div class="rounded-xl overflow-hidden mb-2 transition-all duration-200 hover:opacity-95">
+                <img 
+                    src="${post.image}" 
+                    alt="Post content" 
+                    class="w-full transition-transform duration-300 hover:scale-105" 
+                />
+            </div>
+        `;
+    }
+    
+    // Post HTML structure
+    postElement.innerHTML = `
+        <div class="flex">
+            <div class="w-12 h-12 rounded-full mr-3 bg-gray-300 flex items-center justify-center text-gray-600">
+                ${post.user.charAt(0)}
+            </div>
+            <div class="w-full">
+                <div class="flex items-center">
+                    <span class="font-bold mr-1">${post.user}</span>
+                    <span class="text-gray-500 mr-1">${post.handle}</span>
+                    <span class="text-gray-500">· ${post.timestamp}</span>
+                </div>
+                
+                ${tagsHTML}
+                
+                <p class="mt-1 mb-2">${formattedContent}</p>
+                
+                ${imageHTML}
+                
+                <div class="flex justify-between mt-2 text-gray-500">
+                    <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors duration-200">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        <span class="ml-1">${post.comments}</span>
+                    </button>
+                    <button class="flex items-center space-x-1 hover:text-green-500 transition-colors duration-200">
+                        <i data-lucide="repeat" class="w-4 h-4"></i>
+                        <span class="ml-1">${post.reposts}</span>
+                    </button>
+                    <button class="flex items-center space-x-1 hover:text-red-500 transition-colors duration-200 hover-scale">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                        <span class="ml-1">${post.likes}</span>
+                    </button>
+                    <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors duration-200">
+                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add to feed (prepend for new posts, append for initial load)
+    if (append) {
+        postFeed.appendChild(postElement);
+    } else {
+        postFeed.insertBefore(postElement, postFeed.firstChild);
+    }
+    
+    // IMPORTANT: Re-initialize Lucide icons in the new post
+    lucide.createIcons({
+        root: postElement
+    });
     }
     
     // Character counter
